@@ -1,7 +1,281 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "collect-service": {
+      "root": "apps/collect-service",
+      "projectType": "application",
+      "sourceRoot": "apps/collect-service",
+      "targets": {
+        "build": {
+          "executor": "@nx-dotnet/core:build",
+          "outputs": ["{options.output}"],
+          "options": {
+            "output": "dist/apps/collect-service",
+            "configuration": "Debug"
+          },
+          "configurations": {
+            "production": {
+              "configuration": "Release"
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nx-dotnet/core:serve",
+          "options": {
+            "configuration": "Debug"
+          },
+          "configurations": {
+            "production": {
+              "configuration": "Release"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nx-dotnet/core:format"
+        }
+      }
+    },
+    "dotnet-data-layer": {
+      "root": "libs/dotnet/data-layer",
+      "projectType": "library",
+      "sourceRoot": "libs/dotnet/data-layer",
+      "targets": {
+        "build": {
+          "executor": "@nx-dotnet/core:build",
+          "outputs": ["{options.output}"],
+          "options": {
+            "output": "dist/libs/dotnet/data-layer",
+            "configuration": "Debug"
+          },
+          "configurations": {
+            "production": {
+              "configuration": "Release"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nx-dotnet/core:format"
+        }
+      }
+    },
+    "ngx-watchlog": {
+      "projectType": "library",
+      "root": "libs/ngx-watchlog",
+      "sourceRoot": "libs/ngx-watchlog/src",
+      "prefix": "watchlog",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/angular:package",
+          "outputs": ["dist/libs/ngx-watchlog"],
+          "options": {
+            "project": "libs/ngx-watchlog/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/ngx-watchlog/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/ngx-watchlog/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ngx-watchlog"],
+          "options": {
+            "jestConfig": "libs/ngx-watchlog/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ngx-watchlog/src/**/*.ts",
+              "libs/ngx-watchlog/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shared": {
+      "root": "libs/shared",
+      "sourceRoot": "libs/shared/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/shared",
+            "tsConfig": "libs/shared/tsconfig.lib.json",
+            "packageJson": "libs/shared/package.json",
+            "main": "libs/shared/src/index.ts",
+            "assets": ["libs/shared/*.md"]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/shared/**/*.ts"]
+          }
+        }
+      }
+    },
+    "watchlog-dash": {
+      "projectType": "application",
+      "root": "apps/watchlog-dash",
+      "sourceRoot": "apps/watchlog-dash/src",
+      "prefix": "watchlog",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/watchlog-dash",
+            "index": "apps/watchlog-dash/src/index.html",
+            "main": "apps/watchlog-dash/src/main.ts",
+            "polyfills": "apps/watchlog-dash/src/polyfills.ts",
+            "tsConfig": "apps/watchlog-dash/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/watchlog-dash/src/favicon.ico",
+              "apps/watchlog-dash/src/assets"
+            ],
+            "styles": ["apps/watchlog-dash/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/watchlog-dash/src/environments/environment.ts",
+                  "with": "apps/watchlog-dash/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "watchlog-dash:build:production"
+            },
+            "development": {
+              "browserTarget": "watchlog-dash:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "browserTarget": "watchlog-dash:build:development",
+            "host": "local.watchlog.com",
+            "port": 4200,
+            "proxyConfig": "apps/watchlog-dash/proxy.conf.json"
+          }
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "watchlog-dash:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/watchlog-dash/src/**/*.ts",
+              "apps/watchlog-dash/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/watchlog-dash"],
+          "options": {
+            "jestConfig": "apps/watchlog-dash/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "watchlogjs": {
+      "root": "libs/watchlogjs",
+      "sourceRoot": "libs/watchlogjs/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/watchlogjs/**/*.js"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/watchlogjs"],
+          "options": {
+            "jestConfig": "libs/watchlogjs/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/watchlogjs",
+            "tsConfig": "libs/watchlogjs/tsconfig.lib.json",
+            "packageJson": "libs/watchlogjs/package.json",
+            "main": "libs/watchlogjs/src/index.js",
+            "assets": ["libs/watchlogjs/*.md"],
+            "optimization": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/angular"
+  },
+  "generators": {
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "none"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "watchlog-dash"
 }
