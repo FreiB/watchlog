@@ -39,6 +39,7 @@ namespace WatchLog.Services.CollectService
                 });
             });
 
+            services.AddWebOptimizer();
             services.AddControllers();
             services.AddWatchLogDataServices();
             services.AddHttpContextAccessor();
@@ -58,6 +59,8 @@ namespace WatchLog.Services.CollectService
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WatchLog.Services.CollectService v1"));
             }
 
+            app.UseWebOptimizer();
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCors("MyCorsPolicy");

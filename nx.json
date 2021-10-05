@@ -36,13 +36,13 @@
     "ngx-watchlog": {
       "tags": []
     },
+    "retrieve-service": {
+      "tags": []
+    },
     "shared": {
       "tags": []
     },
     "watchlog-dash": {
-      "tags": []
-    },
-    "watchlogjs": {
       "tags": []
     }
   },

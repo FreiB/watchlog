@@ -99,6 +99,57 @@
         }
       }
     },
+    "retrieve-service": {
+      "root": "apps/retrieve-service",
+      "sourceRoot": "apps/retrieve-service/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/retrieve-service",
+            "main": "apps/retrieve-service/src/main.ts",
+            "tsConfig": "apps/retrieve-service/tsconfig.app.json",
+            "assets": ["apps/retrieve-service/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/retrieve-service/src/environments/environment.ts",
+                  "with": "apps/retrieve-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "retrieve-service:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/retrieve-service/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/retrieve-service"],
+          "options": {
+            "jestConfig": "apps/retrieve-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "shared": {
       "root": "libs/shared",
       "sourceRoot": "libs/shared/src",
@@ -219,40 +270,6 @@
           "options": {
             "jestConfig": "apps/watchlog-dash/jest.config.js",
             "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "watchlogjs": {
-      "root": "libs/watchlogjs",
-      "sourceRoot": "libs/watchlogjs/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["libs/watchlogjs/**/*.js"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/watchlogjs"],
-          "options": {
-            "jestConfig": "libs/watchlogjs/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "build": {
-          "executor": "@nrwl/node:package",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/libs/watchlogjs",
-            "tsConfig": "libs/watchlogjs/tsconfig.lib.json",
-            "packageJson": "libs/watchlogjs/package.json",
-            "main": "libs/watchlogjs/src/index.js",
-            "assets": ["libs/watchlogjs/*.md"],
-            "optimization": true
           }
         }
       }

@@ -7,8 +7,6 @@ import { WatchlogCollectorService } from 'ngx-watchlog';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private collector: WatchlogCollectorService) {
-    collector.startReporting();
-  }
+  constructor(private collector: WatchlogCollectorService) {}
   title = 'watchlog-dash';
 }

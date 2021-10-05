@@ -11,12 +11,15 @@ function watchlog() {
   var collectLimit =
     Number(document.currentScript.getAttribute('data-collect-limit')) || 5;
 
+  var existingCollection =
+    window.watchlog_collector && window.watchlog_collector.collection;
+
   var watchlog_collector = {
     serviceUrl,
     collectInterval,
     collectDelay,
     collectLimit,
-    collection: [],
+    collection: existingCollection || [],
   };
 
   window.watchlog_collector = watchlog_collector;
@@ -24,15 +27,12 @@ function watchlog() {
   window.addEventListener('load', (e) => {
     setTimeout(function () {
       initSession().then(() => {
-        //collection = getPerformanceEntries().map((en) => collect(en));
         postCollectionRepeating();
       });
     }, collectDelay);
   });
 
   var perfObserver = new PerformanceObserver(function (list, obj) {
-    // Get all the resource entries collected so far
-    // (You can also use getEntriesByType/getEntriesByName here)
     watchlog_collector.collection = [
       ...watchlog_collector.collection,
       ...list
@@ -43,7 +43,6 @@ function watchlog() {
   });
 
   perfObserver.observe({
-    // Polls for Navigation and Resource Timing entries
     entryTypes: ['navigation', 'resource', 'paint', 'measure'],
   });
 
@@ -66,14 +65,6 @@ function watchlog() {
       cache: 'no-cache',
       credentials: 'include',
     });
-  }
-
-  function getPerformanceEntries(list) {
-    return [
-      ...performance.getEntriesByType('navigation'),
-      ...performance.getEntriesByType('resource'),
-      ...performance.getEntriesByType('paint'),
-    ];
   }
 
   function postCollectionRepeating() {
