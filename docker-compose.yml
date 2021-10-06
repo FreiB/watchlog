@@ -31,5 +31,10 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=F7
       - DOCKER_INFLUXDB_INIT_BUCKET=watchlog-dev
 
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+
 volumes:
   influxdb-storage:
