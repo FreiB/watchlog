@@ -243,10 +243,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "browserTarget": "watchlog-dash:build:development",
-            "host": "local.watchlog.com",
-            "port": 4200,
-            "proxyConfig": "apps/watchlog-dash/proxy.conf.json"
+            "browserTarget": "watchlog-dash:build:development"
           }
         },
         "extract-i18n": {

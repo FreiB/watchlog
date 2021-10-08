@@ -34,8 +34,8 @@ namespace WatchLog.Services.CollectService.Controllers
             ClientInfo clientInfo = uaParser.Parse(Request.Headers["User-Agent"].ToString());
             foreach (var collectable in collectPayload.Collection)
             {
-                collectable.ClientIpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-                collectable.SessionId = Request.Cookies["WATCHLOG_SESSION"];
+                //collectable.ClientIpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                //collectable.SessionId = Request.Cookies["WATCHLOG_SESSION"];
                 collectable.DeviceFamily = clientInfo.Device.Family ?? string.Empty;
                 collectable.UserAgentFamily = clientInfo.UA.Family ?? string.Empty;
                 collectable.UserAgentVersion = UAHelper.BuildVersionString(clientInfo.UA.Major, clientInfo.UA.Minor, clientInfo.UA.Patch);

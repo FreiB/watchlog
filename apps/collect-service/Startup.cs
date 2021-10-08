@@ -32,8 +32,8 @@ namespace WatchLog.Services.CollectService
             {
                 options.AddPolicy("MyCorsPolicy", builder =>
                 {
-                    builder.WithOrigins("http://local.watchlog.com:4200");
-                    builder.AllowCredentials();
+                    builder.AllowAnyOrigin();
+                    //builder.AllowCredentials();
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                 });

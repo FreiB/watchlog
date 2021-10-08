@@ -26,9 +26,10 @@ function watchlog() {
 
   window.addEventListener('load', (e) => {
     setTimeout(function () {
-      initSession().then(() => {
-        postCollectionRepeating();
-      });
+      // initSession().then(() => {
+      //   postCollectionRepeating();
+      // });
+      postCollectionRepeating();
     }, collectDelay);
   });
 
@@ -81,7 +82,7 @@ function watchlog() {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
-        credentials: 'include',
+        //credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

@@ -1,13 +1,15 @@
 version: '3.4'
 
 services:
-  # watchlog-dash:
-  #   image: ${DOCKER_REGISTRY-}watchlogdash
-  #   ports:
-  #     - '4200:4200'
-  #   build:
-  #     context: .
-  #     dockerfile: apps/watchlog-dash/Dockerfile
+  watchlog-dash:
+    image: ${DOCKER_REGISTRY-}watchlogdash
+    ports:
+      - '80:80'
+    environment:
+      - WATCHLOG_DOMAIN=watchlog.local
+    build:
+      context: .
+      dockerfile: apps/watchlog-dash/Dockerfile
   watchlog.services.collectservice:
     image: ${DOCKER_REGISTRY-}watchlogservicescollectservice
     ports:
