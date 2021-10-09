@@ -4,6 +4,28 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    {
+      "name": ".NET Core Launch (Collect Service)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/apps/collect-service/bin/Debug/net5.0/WatchLog.Services.CollectService.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/apps/collect-service",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOCKER_WATHCLOG_DB_TOKEN": "M-3wkYuYewA-Ytu-wQlpByWzT-IHSJCP-ksSBWGJZMhbPItP0DsBPAMlux4y_wK3UqGFhIs_IVYCrrwrQLtaLg==",
+        "ASPNETCORE_URLS": "http://+:5000"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
       {
         "name": "Attach by Process ID",
         "processId": "${command:PickProcess}",
