@@ -3,8 +3,7 @@ server {
         server_name ${WATCHLOG_DOMAIN};
 
         location / {
-            root /usr/share/nginx/html;
-            expires 30d;
+            try_files $uri $uri/ /index.html;
         }
 
         location /api {
@@ -18,7 +17,7 @@ server {
 
     server {
         listen 80;
-        server_name collect.${WATCHLOG_DOMAIN};
+        server_name collect-${WATCHLOG_DOMAIN};
         location / {
             proxy_pass http://watchlog.services.collectservice:80;
         }
@@ -26,7 +25,7 @@ server {
 
     server {
         listen 80;
-        server_name influx.${WATCHLOG_DOMAIN};
+        server_name influx-${WATCHLOG_DOMAIN};
         location / {
             proxy_pass http://influxdb:8086;
         }
@@ -34,7 +33,7 @@ server {
 
     server {
         listen 80;
-        server_name grafana.${WATCHLOG_DOMAIN};
+        server_name grafana-${WATCHLOG_DOMAIN};
         location / {
             proxy_pass http://grafana:3000;
         }
