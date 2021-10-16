@@ -1,0 +1,5 @@
+version: '3.4'
+
+services:
+  watchlog.services.collectservice:
+    image: freib/watchlog-collect-service:latest
