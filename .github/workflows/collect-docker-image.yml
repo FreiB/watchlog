@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup .NET Core SDK
+    - uses: actions/setup-dotnet@v1.8.2
+    
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build ./apps/collect-service --file Dockerfile --tag watchlog/collect-service:$(date +%s)
