@@ -24,7 +24,8 @@ namespace WatchLog.Infra.Data.Services
         {
             _pointDataCreatorProvider = pointDataCreatorProvider;
             string token = configuration["DOCKER_WATHCLOG_DB_TOKEN"];
-            _dbClient = InfluxDBClientFactory.Create("http://influxdb:8086", token);
+            string influxAddress = configuration["DOCKER_WATHCLOG_DB_ADDRESS"];
+            _dbClient = InfluxDBClientFactory.Create(influxAddress, token);
         }
         public void InsertData(Collectable collectable)
         {

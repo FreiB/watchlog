@@ -4,7 +4,7 @@ services:
   watchlog-dash:
     image: ${DOCKER_REGISTRY-}watchlogdash
     ports:
-      - '80:80'
+      - '8080:80'
     environment:
       - WATCHLOG_DOMAIN=watchlog.local
     build:
@@ -18,25 +18,5 @@ services:
       context: .
       dockerfile: apps/collect-service/Dockerfile
     environment:
-      - DOCKER_WATHCLOG_DB_TOKEN=dmjKzWOgYz4Dsw88Tu4hrfZyrhLnuvlGfkeim055QcBp7_3y_2Th0POm9gWAim1M7ag50PIueKFv1ePlQGrkqQ==
-
-  influxdb:
-    image: influxdb:latest
-    ports:
-      - '8086:8086'
-    volumes:
-      - influxdb-storage:/var/lib/influxdb
-    environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=watchlog
-      - DOCKER_INFLUXDB_INIT_PASSWORD=q1w1e1r1%
-      - DOCKER_INFLUXDB_INIT_ORG=F7
-      - DOCKER_INFLUXDB_INIT_BUCKET=watchlog-dev
-
-  grafana:
-    image: grafana/grafana
-    ports:
-      - 3000:3000
-
-volumes:
-  influxdb-storage:
+      - DOCKER_WATHCLOG_DB_TOKEN=YOUR_TOKEN_HERE
+      - DOCKER_WATHCLOG_DB_ADDRESS=YOUR_DB_ADDRESS
