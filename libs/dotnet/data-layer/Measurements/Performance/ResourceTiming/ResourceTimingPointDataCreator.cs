@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using InfluxDB.Client.Writes;
 using Newtonsoft.Json;
@@ -15,6 +16,7 @@ namespace WatchLog.Infra.Data.Measurements.Performance.ResourceTiming
     {
         public PointData CreatePointData(Collectable collectable)
         {
+            Regex noQueryPattern = new Regex("([^?]+).*");
             ResourceTimingMeasurement rtMeasurement =
                 JsonConvert.DeserializeObject<ResourceTimingMeasurement>(collectable.Message.ToString());
             var point = InfluxHelper.BuildCommonPointDataAttributes(collectable)
@@ -28,7 +30,7 @@ namespace WatchLog.Infra.Data.Measurements.Performance.ResourceTiming
                 .Tag("entry_type", rtMeasurement.EntryType)
                 .Field("fetch_start", rtMeasurement.FetchStart)
                 .Tag("initiator_type", rtMeasurement.InitiatorType)
-                .Tag("name", rtMeasurement.Name)
+                .Tag("name", noQueryPattern.Replace(rtMeasurement.Name, "$1"))
                 .Tag("next_hop_protocol", rtMeasurement.NextHopProtocol)
                 .Field("redirect_end", rtMeasurement.RedirectEnd)
                 .Field("redirect_start", rtMeasurement.RedirectStart)

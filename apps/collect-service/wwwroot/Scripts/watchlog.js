@@ -10,6 +10,9 @@ function watchlog() {
     Number(document.currentScript.getAttribute('data-collect-delay')) || 5000;
   var collectLimit =
     Number(document.currentScript.getAttribute('data-collect-limit')) || 5;
+  var includeHostnames = document.currentScript
+    .getAttribute('data-include-hostnames')
+    ?.split(',');
 
   var existingCollection =
     window.watchlog_collector && window.watchlog_collector.collection;
@@ -50,6 +53,15 @@ function watchlog() {
   function filterEntries(entry) {
     if (entry.name.includes(serviceUrl)) {
       return false;
+    }
+    if (includeHostnames) {
+      var url = null;
+      try {
+        url = new URL(entry.name);
+      } catch {}
+      if (url && !includeHostnames.includes(url.hostname)) {
+        return false;
+      }
     }
 
     if (entry.entryType === 'measure' && entry.name.slice(0, 3) !== 'wl_') {
